@@ -16,21 +16,30 @@ authController.registerProcc = (req,res) =>{
     res.json(req.body.password);
 }
 authController.login = (req,res) =>{
+    
     res.render('../views/authentication/login');
 }
 authController.loginProcc = (req,res) =>{
 
     User.findOne({email: req.body.Email}).then(result =>{
         if(req.body.password === result.password){
+          
+            req.session.user_id = result._id;
+            //   res.json(req.session);
             res.redirect('/home');
         }else{
-            res.render("../views/authentication/login.ejs",{Error:'block'});
+            res.json("error 1");
+            // res.redirect("/login",{Error:'block'});
         }
     }).catch(error=>{
-        res.redirect("/login");
+        res.json("error");
+        // res.redirect("/login");
     });
 //  User.findOne({ email: req.body.email }).then(result=>{
 //     res.json(result);
 //  })
+}
+authController.Logout = (req,res)=>{
+    
 }
 module.exports = authController;

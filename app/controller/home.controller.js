@@ -6,8 +6,9 @@ var User = mongoose.model("users");
 var homeController = {};
 
 homeController.home = (req,res) =>{
-
-    res.render('../views/home/index.ejs');
+    // console.log(req.session);
+    res.json(req.session.user_id);
+    // res.render('../views/home/index.ejs');
 }
 
 module.exports = homeController;
