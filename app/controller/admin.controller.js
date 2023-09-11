@@ -6,6 +6,6 @@ var User = mongoose.model("users");
 var adminController = {};
 
 adminController.home = (req,res)=>{
-    res.json("done");
+    res.render("../view/admin/home/index.js");
 }
 module.exports = adminController;

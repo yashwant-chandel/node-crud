@@ -5,15 +5,25 @@ const bcrypt = require('bcrypt');
 var User = mongoose.model("users");
 var authController = {};
 
+const securePassword = async (password)=>{
+    try{
+        const hashPassword = await bcrypt.hash(password,10);
+        return hashPassword;
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
 authController.register = (req ,res) =>{
     res.render('../views/authentication/register');
 }
-authController.registerProcc = (req,res) =>{
-    var userdata = new User(req.body);
+authController.registerProcc = async (req,res) =>{
+   
+    var password = await securePassword(req.body.password);
+    var userdata = new User({name:req.body.name,email:req.body.email,password:password});
     userdata.save();
-    // res.redirect('/register');
+    res.redirect('/register');
     // console.log(req.body);
-    res.json(req.body.password);
 }
 authController.login = (req,res) =>{
     
@@ -40,6 +50,7 @@ authController.loginProcc = (req,res) =>{
 //  })
 }
 authController.Logout = (req,res)=>{
-    
+    session.destroy();
+    return redirect('/login');
 }
 module.exports = authController;

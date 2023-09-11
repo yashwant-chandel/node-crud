@@ -7,6 +7,7 @@ var home = require('../controller/home.controller');
 var admin = require('../controller/admin.controller');
 
 var login = require('../middleware/isUser.middleware');
+var validator = require('../validations/AuhtValidator.validation');
 var session = require('express-session');
 router.use(session({secret:"sessionsecret",resave: false,saveUninitialized: true}));
 router.get('/',employe.list);
@@ -17,7 +18,7 @@ router.post('/update',employe.update);
 
 
 router.get('/register',auth.register);
-router.post('/registerProcc',auth.registerProcc);
+router.post('/registerProcc',validator.register,auth.registerProcc);
 
 router.get('/login',auth.login);
 router.post('/loginProcc',auth.loginProcc);
